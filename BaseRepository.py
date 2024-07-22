@@ -7,6 +7,12 @@ class BaseREPO:
     model = None
 
     @classmethod
+    async def find_by_id(cls, model_id):
+        async with async_session() as session:
+            query = select(cls.model).filter_by(id=model_id)
+            models = await session.execute(query)
+            return models.scalar_one_or_none()
+    @classmethod
     async def find_all(cls, **kwargs):
         async with async_session() as session:
             query = select(cls.model).filter_by(**kwargs)
@@ -14,11 +20,11 @@ class BaseREPO:
             return models.scalars().all()
 
     @classmethod
-    async def find_one_or_none(cls, **kwargs):
+    async def find_one_or_none(cls, **filter_by):
         async with async_session() as session:
-            query = select(cls.model).filter_by(**kwargs)
+            query = select(cls.model).filter_by(**filter_by)
             models = await session.execute(query)
-            return models.scalars().all()
+            return models.scalar_one_or_none()
 
     @classmethod
     async def add(cls, **kwargs):
@@ -26,4 +32,3 @@ class BaseREPO:
             query = insert(cls.model).values(**kwargs)
             result = await session.execute(query)
             await session.commit()
-            return result
