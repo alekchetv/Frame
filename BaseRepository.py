@@ -11,7 +11,8 @@ class BaseREPO:
         async with async_session() as session:
             query = select(cls.model).filter_by(id=model_id)
             models = await session.execute(query)
-            return models.scalar_one_or_none()
+            return models.scalars().one_or_none()
+
     @classmethod
     async def find_all(cls, **kwargs):
         async with async_session() as session:
