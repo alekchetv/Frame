@@ -6,3 +6,6 @@ from models import Film
 class FilmREPO(BaseREPO):
     model = Film
 
+    @classmethod
+    async def top_rating(cls):
+        pass

@@ -24,12 +24,12 @@ class Film(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     title: Mapped[str] = mapped_column(nullable=False)
     score: Mapped[int] = mapped_column(nullable=False)
-    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
-
-
-class Category(Base):
-    __tablename__ = "categories"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(nullable=False)
-    # film: Mapped["Film"] = relationship("Film", back_populates="Category")
+    category: Mapped[str] = mapped_column(nullable=False)
+#     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
+#
+#
+# class Category(Base):
+#     __tablename__ = "categories"
+#
+#     id: Mapped[int] = mapped_column(primary_key=True)
+#     title: Mapped[str] = mapped_column(nullable=False)

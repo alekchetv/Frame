@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Depends, Request
-from sqlalchemy.ext.asyncio import AsyncSession
-from models import Film
-from sqlalchemy import select
-from database import async_session
-from models import User, Film, Category
+from models import User, Film
 from films.repository import FilmREPO
 from users.dependencies import current_user, get_token
+from films.schemas import FilmData
+from fastapi import Query
+
 
 
 router = APIRouter(
@@ -14,14 +13,22 @@ router = APIRouter(
 )
 
 
+categories = ["Боевик", "bn", "Драма", "Роман", "Хоррор", "Художественный"]
+
+
 @router.get("")
-async def get_films(user: User = Depends(current_user)):
+async def get_user_films(user: User = Depends(current_user)):
     return await FilmREPO.find_all(user_id=user.id)
 
 
+@router.get("/top_films")
+async def get_films_rating(user: User = Depends(current_user)):
+    return await FilmREPO.find_all()
+
+
 @router.post("/add_film")
-async def add_films(title, score: int, category_id: int, user: User = Depends(current_user)):
-    return await FilmREPO.add(title=title, score=score, user_id=user.id, category_id=category_id)
+async def add_films(film: FilmData, category: str = Query(enum=categories), user: User = Depends(current_user)):
+    return await FilmREPO.add(title=film.title, score=film.score, user_id=user.id, category=category)
 
 
 async def add_category(category):
