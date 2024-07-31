@@ -3,15 +3,17 @@ from jose import jwt, JWTError
 from config import SECRET_KEY, ALGORITHM
 from datetime import datetime
 from users.repository import UserREPO
+from exceptions import (TokenNotValidException, TokenNotFoundException, TokenIsExpiredException, TokenIdNotFoundException,
+                        UserNotFoundException)
 
 
 def get_token(request: Request):
     try:
         token = request.cookies["frame_access_token"]
     except KeyError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise TokenNotFoundException
     if not token:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise TokenNotFoundException
     return token
 
 
@@ -21,15 +23,14 @@ async def current_user(token: str = Depends(get_token)):
             token, SECRET_KEY, ALGORITHM
         )
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise TokenNotValidException
     expire: str = payload.get("exp")
     if (not expire) or (int(expire) < datetime.utcnow().timestamp()):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise TokenIsExpiredException
     user_id: str = payload.get("id")
     if not user_id:
-        print("user_id")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise TokenIdNotFoundException
     user = await UserREPO.find_by_id(int(user_id))
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UserNotFoundException
     return user
