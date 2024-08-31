@@ -5,6 +5,9 @@ from users.dependencies import current_user, get_token
 from films.schemas import FilmData
 from fastapi import Query
 
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
 
 
 router = APIRouter(
@@ -17,12 +20,13 @@ categories = ["Боевик", "bn", "Драма", "Роман", "Хоррор", 
 
 
 @router.get("")
+@cache(expire=20)
 async def get_user_films(user: User = Depends(current_user)):
     return await FilmREPO.find_all(user_id=user.id)
 
 
 @router.get("/top_films")
-async def get_films_rating(user: User = Depends(current_user)):
+async def get_films_rating():
     return await FilmREPO.find_all()
 
 
@@ -33,3 +37,4 @@ async def add_films(film: FilmData, category: str = Query(enum=categories), user
 
 async def add_category(category):
     pass
+

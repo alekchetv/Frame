@@ -20,3 +20,11 @@ async def get_films_page(request: Request, films=Depends(get_user_films)):
             "request": request,
             "films": films,
             })
+
+
+@router.get("/login")
+async def get_login_page(request: Request):
+    return templates.TemplateResponse(
+        name="auth.html", context={
+            "request": request
+        })

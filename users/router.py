@@ -1,6 +1,6 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Response, Request
 from exceptions import UserAlreadyExistException, UserNotFoundException
-from fastapi import Response, Request
+from fastapi.responses import RedirectResponse
 from datetime import timedelta
 from users.schemas import UserRegister, UserAuth
 from users.repository import UserREPO
