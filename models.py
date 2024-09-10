@@ -23,7 +23,7 @@ class Film(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     title: Mapped[str] = mapped_column(nullable=False)
-    score: Mapped[int] = mapped_column(nullable=False)
+    score: Mapped[float] = mapped_column(nullable=False, )
     category: Mapped[str] = mapped_column(nullable=False)
 #     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
 #

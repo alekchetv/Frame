@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Response, Request
-from exceptions import UserAlreadyExistException, UserNotFoundException
+from exceptions import UserAlreadyExistException, UserNotFoundException, UserDataEmpty
 from fastapi.responses import RedirectResponse
 from datetime import timedelta
 from users.schemas import UserRegister, UserAuth
@@ -24,6 +24,8 @@ async def register_user(user: UserRegister):
 @router.post("/login")
 async def login_user(response: Response, request: Request, user_data: UserAuth):
     # print(request.json())
+    if not user_data:
+        raise UserDataEmpty
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise UserNotFoundException

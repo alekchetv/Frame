@@ -28,15 +28,14 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 app = FastAPI(
     title="Frame",
-    lifespan=lifespan
+    lifespan=lifespan,
+    openapi_url='/openapi.json',
 )
 origins = [
-
     "http://127.0.0.1:3000",
     "http://localhost:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000"
-
 ]
 app.include_router(router_films)
 app.include_router(router_users)

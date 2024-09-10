@@ -37,3 +37,8 @@ class TokenIsExpiredException(AuthException):
 class TokenIdNotFoundException(AuthException):
     status_code = status.HTTP_401_UNAUTHORIZED
     detail = ("id пользователя не найден")
+
+
+class UserDataEmpty(AuthException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = ("Пользовательские данные отсутствуют")
