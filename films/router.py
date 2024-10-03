@@ -12,7 +12,7 @@ from fastapi_cache.decorator import cache
 
 router = APIRouter(
     prefix="/films",
-    tags=["Добавление,оценкаы фильмов"],
+    tags=["Добавление,оценка фильмов"],
 )
 
 
