@@ -1,7 +1,7 @@
 
 services:
   db:
-    container_name: db_postgres
+    container_name: db_frame_postgres
     image: postgres:16
     environment:
       - POSTGRES_DB=${DB_NAME}
