@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Repeat command until port 5432 on address db is not ready.
-until nc -z -v -w30 db 5432
+until !</dev/tcp/db/5432
 do
 echo "Waiting for database connection for 5 seconds..."
 
@@ -9,5 +9,6 @@ echo "Waiting for database connection for 5 seconds..."
 sleep 5
 done
 echo "Database server ready..."
-
+alembic upgrade head
+python main.py
 #### run your server afterwards
