@@ -12,5 +12,6 @@ COPY . .
 
 RUN chmod a+x /app/app.sh
 
+CMD ["alembic", "upgrade", "head"]
 CMD ["uvicorn", "main:app", "--host","0.0.0.0","--port","7000"]
 
