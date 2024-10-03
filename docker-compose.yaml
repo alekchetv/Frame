@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - ${APP_HOST_PORT}:8000
+      - ${APP_HOST_PORT}:7000
     env_file:
       - .env
     depends_on:
