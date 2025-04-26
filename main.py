@@ -19,6 +19,7 @@ from pages.router import router as router_pages
 from fastapi.middleware.cors import CORSMiddleware
 
 
+
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     redis = aioredis.from_url("redis://127.0.0.1")
@@ -41,12 +42,13 @@ app.include_router(router_films)
 app.include_router(router_users)
 app.include_router(router_pages)
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"], 
 )
 
 

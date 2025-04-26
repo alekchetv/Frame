@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Repeat command until port 5432 on address db is not ready.
-until !</dev/tcp/db/5432
+until !</dev/tcp/db/5433
 do
 echo "Waiting for database connection for 5 seconds..."
 
